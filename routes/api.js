@@ -7,14 +7,23 @@ const router = express.Router();
 router.route("/api/workouts")
   //GET: return all the workouts
   .get((req,res) => {
-    db.Workout.find({})
-    .then(dbWorkout => {
-      res.json(dbWorkout);
-    })
+    db.Workout.aggregate([
+      {
+        $addFields: {
+          totalDuration: {
+            $sum: '$exercises.duration',
+          },
+        },
+      },
+    ])
+      .then((workouts) => {
+        res.json(workouts);
+      })
     .catch(err => {
       res.json(err);
     });
   })
+  
     
   // POST: post a single workout to database
   .post((req,res) => {
@@ -41,11 +50,20 @@ router.put('/api/workouts/:id', async (req,res) => {
 
 router.get("/api/workouts/range", (req,res) => {
   // example of finding items between date
-  db.Workout.find({}).populate("exercises")
-  .then(dbWorkout => {
-    res.json(dbWorkout);
-  })
-  .catch(err => {
+  db.Workout.aggregate([
+    {
+      $addFields: {
+        totalDuration: {
+          $sum: '$exercises.duration',
+        },
+      },
+    },
+  ])
+  .limit(7)
+    .then((workouts) => {
+      res.json(workouts);
+    })
+.catch(err => {
     res.json(err);
   });
 });

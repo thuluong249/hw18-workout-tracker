@@ -31,7 +31,7 @@ total weight for each day in that period.
 # 🔗 Application Links
 
 * [Github](https://github.com/thuluong249/hw18-workout-tracker)
-* [Heroku Deployment](https://exercise-trackerltt.herokuapp.com/)
+* [Heroku Deployment](hhttps://exercise-trackerltt.herokuapp.com/)
 
 # 📱 Contact 
 
